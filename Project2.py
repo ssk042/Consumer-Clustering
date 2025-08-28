@@ -11,7 +11,7 @@ df = pd.read_excel('Online Retail.xlsx')
 
 # Data Clean-Up
 # handling the missing data
-# dropping description column because has empty values and isn't unnecessary for clustering
+# dropping description column because has empty values and isn't necessary for clustering
 df = df.drop(columns=['Description'])
 
 # dropping blank customer ID rows because want to focus on loyal customers
