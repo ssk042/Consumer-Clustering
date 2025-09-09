@@ -1,7 +1,7 @@
 # Consumer Segments: K-Means Clustering
 This project performs customer segmentation on 500k+ online retail transactions using K-Means clustering, leveraging data cleaning, feature scaling, and one-hot encoding to uncover purchase patterns and distinct customer segments
 
-
+**Deployment Link:** https://consumer-segments-k-means-data-clustering-hst8icixvg4mt44kxuvw.streamlit.app/
 
 ## Features
 - Performs customer segmentation on 500k+ retail transactions
