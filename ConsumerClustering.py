@@ -86,16 +86,15 @@ with st.spinner("Loading and processing customer data. This may take a few minut
     pca = PCA(n_components=2) # data varies in diff directions
     pcadf = pca.fit_transform(newdf.drop('Cluster', axis=1)) # each pc = new combo of features given
 
+    # adding color, labels/adjusting optics
+    fig, ax = plt.subplots(figsize=(8,6))                # plt.figure(figsize=(8,6))
+    scatter = ax.scatter(pcadf[:,0], pcadf[:,1], c=newdf['Cluster'], cmap='viridis', s=20, alpha=0.7) # want to deploy rather than plt.scatter
+    plt.title('Consumer Segments: K-Means Clustering')
+    plt.xlabel('PCA Component 1') # direction where variance is highest
+    plt.ylabel('PCA Component 2') # direction where variance is 2nd highest
+    plt.colorbar(scatter, label='Cluster')
+    st.pyplot(fig)                # print on strealmit rather than plt.show()
+
 st.success("Processing Complete!")
-
-# adding color, labels/adjusting optics
-fig, ax = plt.subplots(figsize=(8,6))                # plt.figure(figsize=(8,6))
-scatter = ax.scatter(pcadf[:,0], pcadf[:,1], c=newdf['Cluster'], cmap='viridis', s=20, alpha=0.7) # want to deploy rather than plt.scatter
-plt.title('Consumer Segments: K-Means Clustering')
-plt.xlabel('PCA Component 1') # direction where variance is highest
-plt.ylabel('PCA Component 2') # direction where variance is 2nd highest
-plt.colorbar(scatter, label='Cluster')
-st.pyplot(fig)                # print on strealmit rather than plt.show()
-
 
 
