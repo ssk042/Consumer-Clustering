@@ -5,13 +5,16 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.decomposition import PCA
+import streamlit as st
+
+st.title("Consumer Segments: K-Means Clustering")
 
 # loading data file
 df = pd.read_excel('Online Retail.xlsx')
 
 # Data Clean-Up
 # handling the missing data
-# dropping description column because has empty values and isn't unnecessary for clustering
+# dropping description column because has empty values and isn't necessary for clustering
 df = df.drop(columns=['Description'])
 
 # dropping blank customer ID rows because want to focus on loyal customers
@@ -68,12 +71,12 @@ kmeans.fit(newdf)    # trains model in new df
 
 # labeling clusters to see clusters customers belong to
 newdf['Cluster'] = kmeans.labels_ 
-print("Number of customers in each cluster:")
-print(newdf['Cluster'].value_counts())
+st.subheader("Number of customers in each cluster:")
+st.write(newdf['Cluster'].value_counts())
 
 # calculating silhouette score -> silhouette_score(features, labels)
 score = silhouette_score(newdf.drop(('Cluster'), axis=1), newdf['Cluster'])
-print(f'Silhouette Score for K={k}: {score:.4f}')
+st.write(f'Silhouette Score for K={k}: {score:.4f}')
 
 # Clustering Visual
 # using principal component analysis to reduce to 2D feature space
@@ -82,13 +85,13 @@ pca = PCA(n_components=2) # data varies in diff directions
 pcadf = pca.fit_transform(newdf.drop('Cluster', axis=1)) # each pc = new combo of features given
 
 # adding color, labels/adjusting optics
-plt.figure(figsize=(8,6))
-plt.scatter(pcadf[:,0], pcadf[:,1], c=newdf['Cluster'], cmap='viridis', s=20, alpha=0.7)
+fig, ax = plt.subplots(figsize=(8,6))                # plt.figure(figsize=(8,6))
+scatter = ax.scatter(pcadf[:,0], pcadf[:,1], c=newdf['Cluster'], cmap='viridis', s=20, alpha=0.7) # want to deploy rather than plt.scatter
 plt.title('Consumer Segments: K-Means Clustering')
 plt.xlabel('PCA Component 1') # direction where variance is highest
 plt.ylabel('PCA Component 2') # direction where variance is 2nd highest
-plt.colorbar(label='Cluster')
-plt.show()
+plt.colorbar(scatter, label='Cluster')
+st.pyplot(fig)                # print on strealmit rather than plt.show()
 
 
 
